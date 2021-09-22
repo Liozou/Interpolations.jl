@@ -39,4 +39,28 @@ A = [f(x) for x in xs]
 # linear interpolation
 interp_linear = LinearInterpolation(xs, A)
 interp_linear(1) # exactly log(1)
-interp_linear(1.05) # approximately log(1.05)</code></pre></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../extrapolation/">« Extrapolation</a><a class="docs-footer-nextpage" href="../iterate/">Knot Iteration »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.5 on <span class="colophon-date" title="Wednesday 1 September 2021 07:55">Wednesday 1 September 2021</span>. Using Julia version 1.6.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+interp_linear(1.05) # approximately log(1.05)</code></pre><h3 id="Example-with-Plots.jl"><a class="docs-heading-anchor" href="#Example-with-Plots.jl">Example with Plots.jl</a><a id="Example-with-Plots.jl-1"></a><a class="docs-heading-anchor-permalink" href="#Example-with-Plots.jl" title="Permalink"></a></h3><p>An interpolated object is also easily capable of being plotted with <a href="https://github.com/JuliaPlots/Plots.jl">Plots.jl</a>. A simple example is as follows:</p><pre><code class="language-julia hljs">using Interpolations, Plots
+
+# Lower and higher bound of interval
+a = 1.0
+b = 10.0
+# Interval definition
+x = a:1.0:b
+# This can be any sort of array data, as long as
+# length(x) == length(y)
+y = @. cos(x^2 / 9.0) # Function application by broadcasting
+# Interpolations
+itp_linear = LinearInterpolation(x, y)
+itp_cubic = CubicSplineInterpolation(x, y)
+# Interpolation functions
+f_linear(x) = itp_linear(x)
+f_cubic(x) = itp_cubic(x)
+# Plots
+width, height = 1500, 800 # not strictly necessary
+x_new = a:0.1:b # smoother interval, necessary for cubic spline
+
+scatter(x, y, markersize=10,label=&quot;Data points&quot;)
+plot!(f_linear, x_new, w=3,label=&quot;Linear interpolation&quot;)
+plot!(f_cubic, x_new, linestyle=:dash, w=3, label=&quot;Cubic Spline interpolation&quot;)
+plot!(size = (width, height))
+plot!(legend = :bottomleft)</code></pre><p>And the generated plot is: <img src="../assets/plotsjl_interpolation_example.png" alt="interpolation plot example"/></p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../extrapolation/">« Extrapolation</a><a class="docs-footer-nextpage" href="../iterate/">Knot Iteration »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 0.27.6 on <span class="colophon-date" title="Wednesday 22 September 2021 02:19">Wednesday 22 September 2021</span>. Using Julia version 1.6.2.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
